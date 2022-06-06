@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api_v1.endpoints import station_trafic
+from app.api_v1.endpoints import station_trafic
 
 app = FastAPI()
 app.include_router(station_trafic.router)
