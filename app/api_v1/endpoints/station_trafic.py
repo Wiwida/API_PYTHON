@@ -6,9 +6,9 @@ router = APIRouter()
 
 
 @router.get("/api/all_traffic/{table}")
-def all_travellers(table: str, response: Response):
+async def all_travellers(table: str, response: Response):
     try:
-        all_station_travellers = supabase_methods.get_all(table)
+        all_station_travellers = await supabase_methods.get_all(table)
         return all_station_travellers
     except:
         response.status_code = 404
@@ -16,14 +16,33 @@ def all_travellers(table: str, response: Response):
 
 
 @router.post("/api/all_trafic/{table}/add_element")
-def add_traveller(table: str, traveller: schemas.addTraveller, response: Response):
-    print(traveller)
-    print(table)
-    create_traveller = supabase_methods.create_traveller({table, traveller})
-    try:
+async def add_traveller(table: str, traveller: schemas.addTraveller, response: Response):
 
+    try:
+        create_traveller = await supabase_methods.create_traveller([traveller, table])
         return create_traveller
     except:
         response.status_code = 404
-        return create_traveller
+        return 'toto'
 
+
+@router.delete("/api/all_trafic/{table}/delete_element")
+async def delete_traveller(table: str, id: int, response : Response):
+
+    try:
+        await supabase_methods.delete_traveller([id, table])
+        return 'Utilisateur supprimé !'
+    except:
+        response.status_code = 404
+        return 'toto2'
+
+
+@router.patch("/api/all_trafic/{table}/update_element")
+async def update_traveller(table: str, id: int, column: str, newvalue, response : Response):
+
+    try:
+        updated_traveller = await supabase_methods.update_traveller([id, table, column, newvalue])
+        return updated_traveller
+    except:
+        response.status_code = 404
+        return 'toto2'

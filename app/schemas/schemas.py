@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class addTraveller(BaseModel):
     UIC: int
-    station: str
+    Gare: str
     CSP: str
-    percentage: float
-    year: int
+    Pourcentage: float
+    Annee: int
