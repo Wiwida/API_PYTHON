@@ -20,7 +20,6 @@ router = APIRouter()
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     userfromdb = MethodSupabase(nametable='USERS', username=form_data.username).get_userdb()
     user = authenticate_user(userfromdb.data[0], form_data.password)
-    print('User : ', user.username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
